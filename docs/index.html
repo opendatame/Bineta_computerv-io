@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Classification des tumeurs cérébrales</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h2>Upload une image de tumeur cérébrale</h2>
+
+    <!-- Bloc pour afficher les messages flash -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul class="flashes">
+          {% for category, message in messages %}
+            <li class="{{ category }}">{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <!-- Conteneur flex pour mettre formulaire et info-box côte à côte -->
+    <div class="container-flex">
+        <form method="POST" enctype="multipart/form-data" class="form-container">
+            <label>Image:</label><br>
+            <input type="file" name="file" required><br><br>
+
+            <label>Backend:</label>
+            <select name="backend" id="backend-select" onchange="updateModelPath()">
+                <option value="pytorch">PyTorch</option>
+                <option value="tensorflow">TensorFlow</option>
+            </select><br><br>
+
+        
+
+            <label>Device (PyTorch):</label><br>
+            <input type="text" name="device" value="cpu"><br><br>
+
+            <input type="submit" value="Prédire">
+        </form>
+
+        <div class="info-box">
+            <h3>🧠 Explanation of the 4 tumor classes:</h3>
+            <ul>
+                <li><strong>Glioma:</strong> A brain tumor that starts in glial cells. It can be malignant or benign.</li>
+                <li><strong>Meningioma:</strong> Often a benign tumor that develops in the meninges (the protective membranes around the brain).</li>
+                <li><strong>Pituitary:</strong> A tumor located in the pituitary gland, sometimes associated with hormonal disorders.</li>
+                <li><strong>No Tumor:</strong> No tumor is detected in the brain MRI scan.</li>
+            </ul>
+        </div>
+    </div>
+
+    {% if prediction %}
+        <h3>Classe prédite : {{ prediction }}</h3>
+        <img src="{{ url_for('static', filename='uploads/' + image_file) }}" width="300">
+    {% endif %}
+
+    <script>
+    function updateModelPath() {
+        
+    }
+    </script>
+</body>
+</html>
