@@ -12,7 +12,7 @@ import torch.optim as optim
 from torch.utils.data import DataLoader
 from torchvision import datasets
 
-from utils.prep import get_train_transforms, get_test_transforms  # Assure-toi que ces fonctions retournent des transforms avec resize 224x224
+from utils.prep import get_train_transforms, get_test_transforms  
 
 
 def train_pytorch(epochs=10, patience=3):
@@ -193,7 +193,7 @@ def train_tensorflow():
         metrics=['accuracy']
     )
 
-    # Callback EarlyStopping uniquement (pas ModelCheckpoint)
+    # Callback EarlyStopping 
     es_callback = callbacks.EarlyStopping(monitor='val_loss', patience=3, restore_best_weights=True)
 
     history = model.fit(
@@ -203,7 +203,7 @@ def train_tensorflow():
         callbacks=[es_callback]
     )
 
-    # Sauvegarde manuelle dans le dossier demandé
+    
     model.save("bineta_model.tensorflow")
 
     loss, accuracy = model.evaluate(test_generator)
@@ -211,7 +211,7 @@ def train_tensorflow():
 
     print("Modèle TensorFlow ResNet sauvegardé sous : bineta_model.tensorflow")
 
-    # Affichage des courbes (facultatif)
+    # Affichage des courbes 
     plt.figure(figsize=(12, 5))
     plt.subplot(1, 2, 1)
     plt.plot(history.history['loss'], label='Train Loss')
